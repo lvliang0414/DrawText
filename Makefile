@@ -6,7 +6,8 @@ LDFLAGS:= -lpthread -lfreetype
 SRCS = DrawText.cc \
 		TextRender.cc \
 		BmpFunctions.cc \
-		easylogging++.cc 
+		easylogging++.cc \
+		Functions.cc
 
 CXX = g++ -std=c++11
 

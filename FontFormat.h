@@ -5,6 +5,18 @@
 #include <vector>
 using namespace std;
 
+typedef struct {
+    int width;
+    int height;
+}SIZE;
+
+typedef struct {
+    int left;
+    int top;
+    int width;
+    int height;
+}RECT;
+
 typedef struct
 {
     char rgbBlue;
@@ -60,7 +72,7 @@ typedef struct {
 
 typedef struct {
     int lineWidth;
-    vector<FontData> fonts;
+    vector<FontData> texts;
 } LineText;
 
 

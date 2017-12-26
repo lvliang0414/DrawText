@@ -1,25 +1,65 @@
 #include "DrawText.h"
 #include "TextRender.h"
 #include "easylogging++.h"
+#include "clipp.h"
+#include "Functions.h"
 
 INITIALIZE_EASYLOGGINGPP
 
+using namespace clipp;
+
 int main(int argc, char ** argv)
 {
-    //LOG(INFO) << "DrawText running...";
+    string textPath;
+    string bmpPath;
 
     CTextRender render;
     render.fontColor = 0xFF0000;
-    render.bmpWidth = 512;
-    render.bmpHeight = 256;
+    render.bmpSize.width = 512;
+    render.bmpSize.height = 16;
+    render.textAlign = 6;
+    render.multiLines = 1;
 
+    string textstr = "";
+    string fontPath = "pix.ttf";
+    int fontSize = 12;
+    int lineSpace = 0;
 
-    if (!render.Init("simsun.ttf")) {
+    auto cli = (
+        value("Text file", textPath),
+        value("Bitmap file", bmpPath),
+        required("-font") & value("path of ttf", fontPath),
+        option("-size") & value("16", fontSize),
+        option("-multiline") & value("0", render.multiLines),
+        option("-align") & value("4", render.textAlign),
+        option("-linespace") & value("0", lineSpace),
+        option("-width") & value("512", render.bmpSize.width),
+        option("-height") & value("64", render.bmpSize.height),
+        option("-color") & value("font color", render.fontColor),
+        option("-backcolor") & value("background color", render.backColor)
+    );
+
+    if (parse(argc, argv, cli)) {
+        if (access(textPath.c_str(), F_OK) != 0) {
+            LOG(ERROR) << "Text file (" << textPath << ") is not exist";
+            return -1;
+        }
+    }
+    else {
+        cout << make_man_page(cli, "drawtext");
+        return -1;
+    }
+    render.lineHeight = fontSize + 2 * lineSpace;
+    textstr = ReadFile(textPath.c_str());
+
+    if (!render.Init(fontPath)) {
         LOG(ERROR) << "TextRender init failed!";
         return -1;
     }
 
-    render.Draw("", "/tmp/text.bmp");
+    render.SetFontSize(fontSize);
+
+    render.Draw(textstr, bmpPath.c_str());
     
     return 0;
 }

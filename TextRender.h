@@ -18,9 +18,14 @@ public:
     vector<FontData> characters;
     vector<LineText> lineTexts;
 
-    int bmpWidth;
-    int bmpHeight;
+    SIZE bmpSize;
+
     int fontColor;
+    int backColor;
+    int multiLines;
+    int textAlign;
+    int lineHeight;
+    int fontAscender;
 
     int Draw(string str, const char * path);
 private:
@@ -28,12 +33,18 @@ private:
     FT_Face face;
 
     int fontSize;
-    int totalWidth;
-    int totalHeight;
     
+    SIZE totalSize;
 
     int GetCharBuf(unsigned short ch, FontData & data);
+    int SplitTextToLines();
+
+    char * GetOneLineStringBuffer();
+    char * GetMultiLineStringBuffer();
     char * GetStringBuf(string str);
+
+    void SetMultiLineDataToBmp(char * buffer, vector<FontData> & lineText,
+                      int lineWidth, int page, int row, int curlines);
 };
 
 #endif
