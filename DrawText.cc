@@ -29,9 +29,9 @@ int main(int argc, char ** argv)
     string backColor="#000000";
 
     auto cli = (
-        value("Text file", textPath),
-        value("Bitmap file", bmpPath),
-        required("-font") & value("path of ttf", fontPath),
+        required("-i") &  value("Text path", textPath),
+        required("-o") &value("Bitmap path", bmpPath),
+        required("-font") & value("Font path", fontPath),
         option("-size") & value("16", fontSize),
         option("-multiline") & value("0", render.multiLines),
         option("-align") & value("4", render.textAlign),
@@ -55,7 +55,7 @@ int main(int argc, char ** argv)
 
     render.fontColor = GetColorFromString(fontColor);
     render.backColor = GetColorFromString(backColor);
-    
+
     render.lineHeight = fontSize + lineSpace;
     textstr = ReadFile(textPath.c_str());
 
