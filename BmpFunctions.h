@@ -3,11 +3,11 @@
 
 #include "FontFormat.h"
 
-int CopyFontDataToBmp(char * bmpBuffer, SIZE bmpSize, char * fontBuffer, 
-               int fontstartx, int fontstarty, RECT fontRect, int pageSplit = 0);
+int CopyFontDataToBmp(char * bmpBuffer, L_SIZE bmpSize, char * fontBuffer, 
+               int fontstartx, int fontstarty, L_RECT fontRect, int pageSplit = 0);
 
-int WriteBmpFile(const char * filename, char * image, SIZE bmpSize);
+int WriteBmpFile(const char * filename, char * image, L_SIZE bmpSize);
 
-void SetBmpBackgroundColor(char * buffer, int color, SIZE bmpSize);
+void SetBmpBackgroundColor(char * buffer, int color, L_SIZE bmpSize);
 
 #endif

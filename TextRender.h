@@ -18,7 +18,7 @@ public:
     vector<FontData> characters;
     vector<LineText> lineTexts;
 
-    SIZE bmpSize;
+    L_SIZE bmpSize;
 
     int fontColor;
     int backColor;
@@ -34,7 +34,7 @@ private:
 
     int fontSize;
     
-    SIZE totalSize;
+    L_SIZE totalSize;
 
     int GetCharBuf(unsigned short ch, FontData & data);
     int SplitTextToLines();

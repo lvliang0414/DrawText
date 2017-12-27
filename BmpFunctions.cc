@@ -9,8 +9,8 @@
 #include "FontFormat.h"
 #include <stdio.h>
 
-int CopyFontDataToBmp(char * bmpBuffer, SIZE bmpSize, char * fontBuffer, 
-        int fontstartx, int fontstarty, RECT fontRect, int pageSplit)
+int CopyFontDataToBmp(char * bmpBuffer, L_SIZE bmpSize, char * fontBuffer, 
+        int fontstartx, int fontstarty, L_RECT fontRect, int pageSplit)
 {
     int height = fontRect.height;
 
@@ -45,7 +45,7 @@ int CopyFontDataToBmp(char * bmpBuffer, SIZE bmpSize, char * fontBuffer,
 }
 
 
-int WriteBmpFile(const char * filename, char * image, SIZE bmpSize)
+int WriteBmpFile(const char * filename, char * image, L_SIZE bmpSize)
 {
     FILE * f;
     BITMAPINFO  bmpInfo;
@@ -81,7 +81,7 @@ int WriteBmpFile(const char * filename, char * image, SIZE bmpSize)
     return 0;
 }
 
-void SetBmpBackgroundColor(char * buffer, int color, SIZE bmpSize)
+void SetBmpBackgroundColor(char * buffer, int color, L_SIZE bmpSize)
 {
     for (int i = 0; i < bmpSize.height; i++)
     {

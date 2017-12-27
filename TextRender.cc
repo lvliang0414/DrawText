@@ -205,7 +205,7 @@ char * CTextRender::GetOneLineStringBuffer()
     int top = 0;
     for (int i = 0; i < characters.size(); i++) {
         FontData fontData = characters[i];
-        RECT fontRect;
+        L_RECT fontRect;
 
         fontRect.left = left + fontData.left;
         fontRect.top = fontAscender - fontData.top;
@@ -344,7 +344,7 @@ void CTextRender::SetMultiLineDataToBmp(char * buffer, vector<FontData> & lineTe
     for (int i = 0; i < lineText.size(); i++)
     {
         FontData font = lineText[i];
-        RECT fontRect;
+        L_RECT fontRect;
         fontRect.left = left + font.left;
         fontRect.top = fontAscender - font.top;
         fontRect.width = font.width;

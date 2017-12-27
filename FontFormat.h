@@ -8,15 +8,16 @@ using namespace std;
 typedef struct {
     int width;
     int height;
-}SIZE;
+}L_SIZE;
 
 typedef struct {
     int left;
     int top;
     int width;
     int height;
-}RECT;
+}L_RECT;
 
+#ifndef _WIN32
 typedef struct
 {
     char rgbBlue;
@@ -57,6 +58,7 @@ typedef struct
     unsigned int   bfOffBits;
 } __attribute__((packed)) BITMAPFILEHEADER;
 
+#endif //WIN32
 
 typedef struct {
     int left;
