@@ -4,7 +4,7 @@
 #include "FontFormat.h"
 
 int CopyFontDataToBmp(char * bmpBuffer, SIZE bmpSize, char * fontBuffer, 
-               int fontstartx, int fontstarty, RECT fontRect);
+               int fontstartx, int fontstarty, RECT fontRect, int pageSplit = 0);
 
 int WriteBmpFile(const char * filename, char * image, SIZE bmpSize);
 

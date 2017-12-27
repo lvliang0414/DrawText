@@ -25,6 +25,9 @@ int main(int argc, char ** argv)
     int fontSize = 12;
     int lineSpace = 0;
 
+    string fontColor="#FFFFFF";
+    string backColor="#000000";
+
     auto cli = (
         value("Text file", textPath),
         value("Bitmap file", bmpPath),
@@ -35,8 +38,8 @@ int main(int argc, char ** argv)
         option("-linespace") & value("0", lineSpace),
         option("-width") & value("512", render.bmpSize.width),
         option("-height") & value("64", render.bmpSize.height),
-        option("-color") & value("font color", render.fontColor),
-        option("-backcolor") & value("background color", render.backColor)
+        option("-color") & value("#ff0000", fontColor),
+        option("-backcolor") & value("#000000", backColor)
     );
 
     if (parse(argc, argv, cli)) {
@@ -49,7 +52,10 @@ int main(int argc, char ** argv)
         cout << make_man_page(cli, "drawtext");
         return -1;
     }
-    render.lineHeight = fontSize + 2 * lineSpace;
+
+    render.fontColor = GetColorFromString(fontColor);
+    render.backColor = GetColorFromString(backColor);
+    render.lineHeight = fontSize + lineSpace;
     textstr = ReadFile(textPath.c_str());
 
     if (!render.Init(fontPath)) {

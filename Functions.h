@@ -7,4 +7,6 @@ using namespace std;
 
 string ReadFile(const char * path);
 
+int GetColorFromString(string colorstr);
+
 #endif

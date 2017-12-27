@@ -85,13 +85,14 @@ int CTextRender::GetCharBuf(unsigned short ch, FontData & data)
 
     FT_GlyphSlot slot = face->glyph;
 
+    data.ch = ch;
     data.left =  slot->bitmap_left;
     data.top = slot->bitmap_top;
     data.width = slot->bitmap.width;
     data.height = slot->bitmap.rows;
 
     data.len = data.width * data.height * 3;
-    if (data.len == 0) {
+    if (data.len == 0 && slot->advance.x == 0) {
         LOG(ERROR) << "data: " << ch << " width: " << data.width << " height: " << data.height;
         return -1;
     }
@@ -314,14 +315,20 @@ int CTextRender::SplitTextToLines()
     for (int i = 0; i < characters.size(); i++) {
         lineWidth += characters[i].incrementx;
 
-        if (lineWidth > bmpSize.width) {
+        if (lineWidth > bmpSize.width || characters[i].ch == '\n') {
             lineText.lineWidth = lineWidth - characters[i].incrementx;
             lineTexts.push_back(lineText);
             lineText.texts.clear();
-            lineWidth = 0;
+            lineWidth = characters[i].incrementx;
         }
-        lineText.lineWidth = lineWidth;
-        lineText.texts.push_back(characters[i]);
+        if (characters[i].ch == '\n') {
+            lineWidth = 0;
+            lineText.lineWidth = 0;
+        }
+        else {
+            lineText.lineWidth = lineWidth;
+            lineText.texts.push_back(characters[i]);
+        }
     }
     if (lineText.texts.size() > 0) {
         lineTexts.push_back(lineText);
@@ -339,7 +346,7 @@ void CTextRender::SetMultiLineDataToBmp(char * buffer, vector<FontData> & lineTe
         FontData font = lineText[i];
         RECT fontRect;
         fontRect.left = left + font.left;
-        fontRect.top = (fontAscender - font.top) / 2 + (lineHeight - fontSize) / 2;
+        fontRect.top = fontAscender - font.top;
         fontRect.width = font.width;
         fontRect.height = font.height;
 
@@ -356,9 +363,11 @@ void CTextRender::SetMultiLineDataToBmp(char * buffer, vector<FontData> & lineTe
             break;
         case 1:         //中上
             startx = (totalWidth - lineWidth) / 2;
+            starty = page * bmpHeight + row * lineHeight;
             break;
         case 2:         //右上
-            startx = totalWidth - font.width - 1;
+            startx = totalWidth - lineWidth - 1;
+            starty = page * bmpHeight + row * lineHeight;
             break;
         case 3:         //左中
             starty = page * bmpHeight + row * lineHeight + (bmpHeight - curlines * lineHeight) / 2;
@@ -368,7 +377,7 @@ void CTextRender::SetMultiLineDataToBmp(char * buffer, vector<FontData> & lineTe
             starty = page * bmpHeight + row * lineHeight + (bmpHeight - curlines * lineHeight) / 2;
             break;
         case 5:         //右中
-            startx = totalWidth - font.width - 1;
+            startx = totalWidth - lineWidth - 1;
             starty = page * bmpHeight + row * lineHeight + (bmpHeight - curlines * lineHeight) / 2;
             break;
         case 6:         //左下
@@ -379,17 +388,21 @@ void CTextRender::SetMultiLineDataToBmp(char * buffer, vector<FontData> & lineTe
             starty = page * bmpHeight + row * lineHeight + (bmpHeight - curlines * lineHeight - 1);
             break;
         case 8:         //右下
-            startx = totalWidth - font.width - 1;
+            startx = totalWidth - lineWidth - 1;
             starty = page * bmpHeight + row * lineHeight + (bmpHeight - curlines * lineHeight - 1);
             break;
         }
+        if (page > 0 && row == 0) {
+            CopyFontDataToBmp(buffer, totalSize, font.buf, startx, starty, fontRect, page * bmpHeight);
+        }
+        else {
+            CopyFontDataToBmp(buffer, totalSize, font.buf, startx, starty, fontRect);
+        }
         
-        CopyFontDataToBmp(buffer, totalSize, font.buf, startx, starty, fontRect);
         left += font.incrementx;
     }
 }
 
-    
 
 int CTextRender::Draw(string str, const char * path)
 {

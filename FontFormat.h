@@ -67,7 +67,7 @@ typedef struct {
     int len;
     int incrementx;
     int incrementy;
-    string text;
+    unsigned short ch;
 } FontData;
 
 typedef struct {
