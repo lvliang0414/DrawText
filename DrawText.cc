@@ -55,6 +55,7 @@ int main(int argc, char ** argv)
 
     render.fontColor = GetColorFromString(fontColor);
     render.backColor = GetColorFromString(backColor);
+    
     render.lineHeight = fontSize + lineSpace;
     textstr = ReadFile(textPath.c_str());
 
@@ -63,8 +64,11 @@ int main(int argc, char ** argv)
         return -1;
     }
 
-    render.SetFontSize(fontSize);
+    if (render.multiLines == 0) {
+        std::replace(textstr.begin(), textstr.end(), '\n', ' ');
+    }
 
+    render.SetFontSize(fontSize);
     render.Draw(textstr, bmpPath.c_str());
     
     return 0;

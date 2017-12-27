@@ -35,6 +35,6 @@ int GetColorFromString(string colorstr)
 
     char * offset;
     int color = strtol(colorstr.c_str(), &offset, 16);
-    printf("color: #%s == 0x%x\n", colorstr.c_str(), color);
+    //printf("color: #%s == 0x%x\n", colorstr.c_str(), color);
     return color;
 }
