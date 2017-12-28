@@ -1,11 +1,13 @@
-#DrawText 使用说明
+## DrawText 使用说明
 
-DrawText 是利用freetyp2库的渲染功能，实现将文字转换为图片的功能。  
+DrawText 是利用freetyp2库的文字渲染方法，实现了文字转换为图片的功能。  
 
-## 使用方法：
+可生成单行和多行文本，文本超过一页时会扩展生成图片的宽度或高度。多行文本会用虚线分割每页内容。
+
+## 使用方法
 drawtext <Text file> <Bitmap file> -font <path of ttf> [-size <16>] [-multiline <0>] [-align <4>] [-linespace <0>] [-width <512>] [-height <64>] [-color <#ff0000>] [-backcolor <#000000>]  
 
-## 参数说明：
+## 参数说明
 ### 必选参数
     -i <Text path>：文本文件路径，文本文件为UTF-8无BOM格式编码  
     -o <Bitmap path>：生成的图片文件路径，图片格式为24bit BMP格式  
