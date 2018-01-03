@@ -17,7 +17,7 @@ int main(int argc, char ** argv)
     render.fontColor = 0xFF0000;
     render.bmpSize.width = 512;
     render.bmpSize.height = 16;
-    render.textAlign = 6;
+    render.textAlign = 1;
     render.multiLines = 1;
 
     string textstr = "";

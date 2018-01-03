@@ -217,18 +217,18 @@ char * CTextRender::GetOneLineStringBuffer()
 
         //Offset Y
         switch (textAlign) {
+            case 4:
+            case 5:
+            case 6:
+                break;
             case 0:
             case 1:
             case 2:
-                break;
-            case 3:
-            case 4:
-            case 5:
                 starty = (totalSize.height - fontSize) / 2;
                 break;
-            case 6:
-            case 7:
             case 8:
+            case 9:
+            case 10:
                 starty = totalSize.height - fontSize;
                 break;
         }
@@ -237,17 +237,17 @@ char * CTextRender::GetOneLineStringBuffer()
         if (t == 1) {
             switch (textAlign) {
                 case 0:
-                case 3:
-                case 6:
+                case 4:
+                case 8:
                     break;
                 case 1:
-                case 4:
-                case 7:
+                case 5:
+                case 9:
                     startx = (totalSize.width - textWidth) / 2;
                     break;
                 case 2:
-                case 5:
-                case 8:
+                case 6:
+                case 10:
                     startx = totalSize.width - textWidth;
                     break;
             }
@@ -358,36 +358,36 @@ void CTextRender::SetMultiLineDataToBmp(char * buffer, vector<FontData> & lineTe
 
         switch (textAlign)
         {
-        case 0:         //左上
+        case 4:         //左上
             starty = page * bmpHeight + row * lineHeight;
             break;
-        case 1:         //中上
+        case 5:         //中上
             startx = (totalWidth - lineWidth) / 2;
             starty = page * bmpHeight + row * lineHeight;
             break;
-        case 2:         //右上
+        case 6:         //右上
             startx = totalWidth - lineWidth - 1;
             starty = page * bmpHeight + row * lineHeight;
             break;
-        case 3:         //左中
+        case 0:         //左中
             starty = page * bmpHeight + row * lineHeight + (bmpHeight - curlines * lineHeight) / 2;
             break;
-        case 4:         //中
+        case 1:         //中
             startx = (totalWidth - lineWidth) / 2;
             starty = page * bmpHeight + row * lineHeight + (bmpHeight - curlines * lineHeight) / 2;
             break;
-        case 5:         //右中
+        case 2:         //右中
             startx = totalWidth - lineWidth - 1;
             starty = page * bmpHeight + row * lineHeight + (bmpHeight - curlines * lineHeight) / 2;
             break;
-        case 6:         //左下
+        case 8:         //左下
             starty = page * bmpHeight + row * lineHeight + (bmpHeight - curlines * lineHeight - 1);
             break;
-        case 7:         //中下
+        case 9:         //中下
             startx = (totalWidth - lineWidth) / 2;
             starty = page * bmpHeight + row * lineHeight + (bmpHeight - curlines * lineHeight - 1);
             break;
-        case 8:         //右下
+        case 10:         //右下
             startx = totalWidth - lineWidth - 1;
             starty = page * bmpHeight + row * lineHeight + (bmpHeight - curlines * lineHeight - 1);
             break;
