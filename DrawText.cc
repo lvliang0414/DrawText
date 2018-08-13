@@ -41,7 +41,7 @@ int main(int argc, char ** argv)
         option("-color") & value("#ff0000", fontColor),
         option("-backcolor") & value("#000000", backColor)
     );
-
+    LOG(DEBUG) << "fontcolor: " << fontColor << "  bgColor: " << backColor;
     if (parse(argc, argv, cli)) {
         if (access(textPath.c_str(), F_OK) != 0) {
             LOG(ERROR) << "Failed: Text file (" << textPath << ") is not exist";
