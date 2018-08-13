@@ -38,8 +38,8 @@ int main(int argc, char ** argv)
         option("-linespace") & value("0", lineSpace),
         option("-width") & value("512", render.bmpSize.width),
         option("-height") & value("64", render.bmpSize.height),
-        option("-color") & value("#ff0000", fontColor),
-        option("-backcolor") & value("#000000", backColor)
+        option("-color") & opt_value("#ff0000", fontColor),
+        option("-backcolor") & opt_value("#ff0000", backColor)
     );
     LOG(DEBUG) << "fontcolor: " << fontColor << "  bgColor: " << backColor;
     if (parse(argc, argv, cli)) {
