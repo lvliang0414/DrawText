@@ -1,8 +1,8 @@
 
 
 CFLAGS:= -g  -I include -I include/freetype2
-#LDFLAGS:= -static -lpthread -lfreetype -lz -lpng
-LDFLAGS:= -static -lpthread -lfreetype -lz
+LDFLAGS:= -static -lpthread -lfreetype -lz -lpng
+#LDFLAGS:= -static -lpthread -lfreetype -lz
 
 SRCS = DrawText.cc \
 		TextRender.cc \
