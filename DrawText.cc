@@ -44,7 +44,7 @@ int main(int argc, char ** argv)
 
     if (parse(argc, argv, cli)) {
         if (access(textPath.c_str(), F_OK) != 0) {
-            LOG(ERROR) << "Text file (" << textPath << ") is not exist";
+            LOG(ERROR) << "Failed: Text file (" << textPath << ") is not exist";
             return -1;
         }
     }
@@ -60,7 +60,7 @@ int main(int argc, char ** argv)
     textstr = ReadFile(textPath.c_str());
 
     if (!render.Init(fontPath)) {
-        LOG(ERROR) << "TextRender init failed!";
+        LOG(ERROR) << "Failed: TextRender init failed!";
         return -1;
     }
 
@@ -68,8 +68,12 @@ int main(int argc, char ** argv)
         std::replace(textstr.begin(), textstr.end(), '\n', ' ');
     }
 
-    render.SetFontSize(fontSize);
-    render.Draw(textstr, bmpPath.c_str());
+    if (render.SetFontSize(fontSize) == 0) {
+        if (render.Draw(textstr, bmpPath.c_str()) == 0) {
+            LOG(DEBUG) << "OK";
+        }
+    }
+    
     
     return 0;
 }

@@ -40,7 +40,7 @@ int CTextRender::SetFontSize(int size)
     fontSize = size;
     if (FT_Set_Pixel_Sizes(face, 0, size))
     {
-        LOG(ERROR) << "Set pixel size error";
+        LOG(ERROR) << "Failed: Set pixel size error";
         return -1;
     }
 
@@ -55,7 +55,7 @@ int CTextRender::SetFontSize(int size)
         {
             error = FT_Set_Charmap(face, charmap);
             if (error)
-                LOG(ERROR) << "FT_Set_Charmap error: " << error;
+                LOG(ERROR) << "Failed: FT_Set_Charmap error: " << error;
         }
     }
     return error;
@@ -148,7 +148,7 @@ char * CTextRender::GetStringBuf(string str)
     string::iterator end_itr = utf8::find_invalid(str.begin(), str.end());
     if (end_itr != str.end())
     {
-        LOG(ERROR) << "Invalid UTF-8 encoding!";
+        LOG(ERROR) << "Failed: Invalid UTF-8 encoding!";
         return NULL;
     }
 
@@ -156,7 +156,7 @@ char * CTextRender::GetStringBuf(string str)
     vector <unsigned short> utf16;
     utf8::utf8to16(str.begin(), end_itr, back_inserter(utf16));
 
-    LOG(DEBUG) << str;
+    //LOG(DEBUG) << str;
 
     FT_GlyphSlot slot = face->glyph;
     fontAscender = face->size->metrics.ascender >> 6 ;
@@ -170,7 +170,7 @@ char * CTextRender::GetStringBuf(string str)
         characters.push_back(fontdata);
     }
 
-    LOG(DEBUG) << "characters size :" << characters.size();
+    //LOG(DEBUG) << "characters size :" << characters.size();
 
     if (multiLines == 0) {
         return GetOneLineStringBuffer();
@@ -265,7 +265,7 @@ char * CTextRender::GetMultiLineStringBuffer()
     totalSize.height = 0;
 
     int lines = SplitTextToLines();
-    printf("total %d lines\n", lines);
+    //printf("total %d lines\n", lines);
 
     int onePageLines = bmpSize.height / lineHeight;
     
@@ -406,6 +406,7 @@ void CTextRender::SetMultiLineDataToBmp(char * buffer, vector<FontData> & lineTe
 
 int CTextRender::Draw(string str, const char * path)
 {
+    int ret = 0;
     if (str == "")
     {
         char * emptybuf = new char [bmpSize.width * bmpSize.height * 3];
@@ -419,12 +420,12 @@ int CTextRender::Draw(string str, const char * path)
         char * buffer = GetStringBuf(str);
 
         if (buffer) {
-            LOG(DEBUG) << "Draw bmp: " << totalSize.width << " x " << totalSize.height;
-            WriteBmpFile(path, buffer, totalSize);
+            //LOG(DEBUG) << "Draw bmp: " << totalSize.width << " x " << totalSize.height;
+            ret = WriteBmpFile(path, buffer, totalSize);
             delete buffer;
         }
         else
             return -1;
     }
-    return 0;
+    return ret;
 }
