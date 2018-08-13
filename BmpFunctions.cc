@@ -28,14 +28,14 @@ int CopyFontDataToBmp(char * bmpBuffer, L_SIZE bmpSize, char * fontBuffer,
     //printf("width:%d, height:%d\n", bmpSize.width, height);
     //printf("start: %d %d\n", fontstartx, fontstarty);
     //printf("font: %d %d\n", fontRect.top, fontRect.left);
-    if (pageSplit) {
+    /*if (pageSplit) {
         for (int i = 0; i < bmpSize.width / 2; i++) {
             int pos = (bmpSize.height - 1 - pageSplit) * bmpSize.width * 3 + i * 6;
             bmpBuffer[pos] = 0xFF;
             bmpBuffer[pos+1] = 0xFF;
             bmpBuffer[pos+2] = 0xFF;
         }
-    }
+    }*/
 
 	for (int i = 0; i < height; i++) {
         memcpy(bmpBuffer + (bmpSize.height - 1 - i - fontRect.top - fontstarty) * bmpSize.width * 3 + fontstartx * 3 + fontRect.left * 3, 
