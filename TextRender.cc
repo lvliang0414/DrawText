@@ -393,6 +393,7 @@ void CTextRender::SetMultiLineDataToBmp(char * buffer, vector<FontData> & lineTe
             break;
         }
         if (page > 0 && row == 0) {
+            //CopyFontDataToBmp(buffer, totalSize, font.buf, startx, starty, fontRect, page * bmpHeight);
             CopyFontDataToBmp(buffer, totalSize, font.buf, startx, starty, fontRect, page * bmpHeight);
         }
         else {
