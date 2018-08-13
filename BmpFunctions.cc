@@ -53,7 +53,7 @@ int WriteBmpFile(const char * filename, char * image, L_SIZE bmpSize)
 
     f = fopen(filename, "wb");
     if ( f == NULL) {
-        LOG(ERROR) << "open " << filename << " failed!";
+        LOG(ERROR) << "Failed: open " << filename << " failed!";
         return -1;
     }
 
