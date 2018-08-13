@@ -29,6 +29,9 @@ int GetColorFromString(string colorstr)
     if (colorstr.length() == 7 && colorstr.at(0) == '#') {
         colorstr = colorstr.substr(1);
     }
+    else if (colorstr.length() == 9) {
+        colorstr = colorstr.substr(2, 6);
+    }
     else if (colorstr.length() != 6) {
         return 0; 
     }
