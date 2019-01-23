@@ -59,6 +59,8 @@ int main(int argc, char ** argv)
     render.lineHeight = fontSize + lineSpace;
     textstr = ReadFile(textPath.c_str());
 
+    textstr = UnescapeHtml(textstr);
+
     if (!render.Init(fontPath)) {
         LOG(ERROR) << "Failed: TextRender init failed!";
         return -1;

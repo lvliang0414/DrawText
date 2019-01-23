@@ -41,3 +41,30 @@ int GetColorFromString(string colorstr)
     //printf("color: #%s == 0x%x\n", colorstr.c_str(), color);
     return color;
 }
+
+string StringReplace(string str, string src, string target)
+{
+    string retstr = str;
+    size_t pos = string::npos;
+    do {
+        pos = retstr.find(src);
+        if (pos != string::npos) {
+            retstr = retstr.replace(pos, src.length(), target);
+        }
+    }while (pos != string::npos);
+
+    return retstr;
+}
+
+string UnescapeHtml(string str)
+{
+    string retstr = StringReplace(str, "&ldquo;", "\"");
+    retstr = StringReplace(retstr, "&rdquo;", "\"");
+    retstr = StringReplace(retstr, "&quot;", "\"");
+    retstr = StringReplace(retstr, "&amp;", "&");
+    retstr = StringReplace(retstr, "&lt;", "<");
+    retstr = StringReplace(retstr, "&gt;", ">");
+
+    return retstr;
+}
+

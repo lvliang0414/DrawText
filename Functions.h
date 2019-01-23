@@ -8,5 +8,6 @@ using namespace std;
 string ReadFile(const char * path);
 
 int GetColorFromString(string colorstr);
+string UnescapeHtml(string str);
 
 #endif
