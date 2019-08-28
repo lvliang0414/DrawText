@@ -7,6 +7,7 @@
 INITIALIZE_EASYLOGGINGPP
 
 using namespace clipp;
+int showDebug = 0;
 
 int main(int argc, char ** argv)
 {
@@ -28,6 +29,8 @@ int main(int argc, char ** argv)
     string fontColor="#FFFFFF";
     string backColor="#000000";
 
+    int showHelp = 0;
+
     auto cli = (
         required("-i") &  value("Text path", textPath),
         required("-o") &value("Bitmap path", bmpPath),
@@ -39,18 +42,29 @@ int main(int argc, char ** argv)
         option("-width") & value("512", render.bmpSize.width),
         option("-height") & value("64", render.bmpSize.height),
         option("-color") & opt_value("#ff0000", fontColor),
-        option("-backcolor") & opt_value("#ff0000", backColor)
+        option("-backcolor") & opt_value("#ff0000", backColor),
+        option("-h") & value("0", showHelp),
+        option("-d") & value("0", showDebug)
     );
-    LOG(DEBUG) << "fontcolor: " << fontColor << "  bgColor: " << backColor;
+
+    if (showDebug) LOG(DEBUG) << "fontcolor: " << fontColor << "  bgColor: " << backColor;
+
     if (parse(argc, argv, cli)) {
         if (access(textPath.c_str(), F_OK) != 0) {
-            LOG(ERROR) << "Failed: Text file (" << textPath << ") is not exist";
+            response(2, "Text file not found!");
             return -1;
         }
     }
     else {
-        cout << make_man_page(cli, "drawtext");
-        return -1;
+        
+        if (showHelp) {
+            cout << make_man_page(cli, "drawtext");
+            return 0;
+        }
+        else {
+            response(1, "parameters error!");
+            return -1;
+        }
     }
 
     render.fontColor = GetColorFromString(fontColor);
@@ -62,7 +76,7 @@ int main(int argc, char ** argv)
     textstr = UnescapeHtml(textstr);
 
     if (!render.Init(fontPath)) {
-        LOG(ERROR) << "Failed: TextRender init failed!";
+        response(3, "TextRender init failed!");
         return -1;
     }
 
@@ -72,10 +86,15 @@ int main(int argc, char ** argv)
 
     if (render.SetFontSize(fontSize) == 0) {
         if (render.Draw(textstr, bmpPath.c_str()) == 0) {
-            LOG(DEBUG) << "OK";
+            response(0, "Success");
+        }
+        else {
+            response(4, "Draw text failed!");
         }
     }
-    
+    else {
+        response(5, "Set fontsize failed!");
+    }
     
     return 0;
 }

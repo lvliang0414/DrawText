@@ -10,4 +10,6 @@ string ReadFile(const char * path);
 int GetColorFromString(string colorstr);
 string UnescapeHtml(string str);
 
+void response(int retcode, string message);
+
 #endif

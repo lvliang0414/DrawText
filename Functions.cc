@@ -68,3 +68,7 @@ string UnescapeHtml(string str)
     return retstr;
 }
 
+void response(int retcode, string message)
+{
+    printf("{\"retcode\":%d, \"retmsg\":\"%s\"}\n", retcode, message.c_str());
+}

@@ -9,6 +9,8 @@
 #include "FontFormat.h"
 #include <stdio.h>
 
+extern int showDebug;
+
 int CopyFontDataToBmp(char * bmpBuffer, L_SIZE bmpSize, char * fontBuffer, 
         int fontstartx, int fontstarty, L_RECT fontRect, int pageSplit)
 {
@@ -53,7 +55,7 @@ int WriteBmpFile(const char * filename, char * image, L_SIZE bmpSize)
 
     f = fopen(filename, "wb");
     if ( f == NULL) {
-        LOG(ERROR) << "Failed: open " << filename << " failed!";
+        if (showDebug) LOG(ERROR) << "Failed: open " << filename << " failed!";
         return -1;
     }
 

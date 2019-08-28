@@ -3,6 +3,8 @@
 #include "utf8.h"
 #include "BmpFunctions.h"
 
+extern int showDebug;
+
 CTextRender::CTextRender()
 {
 
@@ -21,14 +23,14 @@ bool CTextRender::Init(string fontpath)
     error = FT_Init_FreeType(&library);
     
     if (error) {
-        LOG(ERROR) << "FT Init FreeType error!" << error;
+        if (showDebug) LOG(ERROR) << "FT Init FreeType error!" << error;
         return false;
     }
 
     error = FT_New_Face (library, fontpath.c_str(), 0, &face);
     if (error)
     {
-        LOG(ERROR) << "FT face font(" << fontpath << ") error: " << error;
+        if (showDebug) LOG(ERROR) << "FT face font(" << fontpath << ") error: " << error;
         return false;
     }
 
@@ -40,7 +42,7 @@ int CTextRender::SetFontSize(int size)
     fontSize = size;
     if (FT_Set_Pixel_Sizes(face, 0, size))
     {
-        LOG(ERROR) << "Failed: Set pixel size error";
+        if (showDebug) LOG(ERROR) << "Failed: Set pixel size error";
         return -1;
     }
 
@@ -55,7 +57,7 @@ int CTextRender::SetFontSize(int size)
         {
             error = FT_Set_Charmap(face, charmap);
             if (error)
-                LOG(ERROR) << "Failed: FT_Set_Charmap error: " << error;
+                if (showDebug) LOG(ERROR) << "Failed: FT_Set_Charmap error: " << error;
         }
     }
     return error;
@@ -71,7 +73,7 @@ int CTextRender::GetCharBuf(unsigned short ch, FontData & data)
         error = FT_Load_Glyph(face, glyph_index, FT_LOAD_DEFAULT | FT_LOAD_NO_BITMAP);
         if (error)
         {
-            LOG(ERROR) << "FT_Load_Glyph error: " << error;
+            if (showDebug) LOG(ERROR) << "FT_Load_Glyph error: " << error;
             return -1;
         }
     }
@@ -79,7 +81,7 @@ int CTextRender::GetCharBuf(unsigned short ch, FontData & data)
     error = FT_Render_Glyph(face->glyph, FT_RENDER_MODE_MONO);
     if (error)
     {
-        LOG(ERROR) << "Render Glyph error: " << error;
+        if (showDebug) LOG(ERROR) << "Render Glyph error: " << error;
         return -1;
     }
 
@@ -93,7 +95,7 @@ int CTextRender::GetCharBuf(unsigned short ch, FontData & data)
 
     data.len = data.width * data.height * 3;
     if (data.len == 0 && slot->advance.x == 0) {
-        LOG(ERROR) << "data: " << ch << " width: " << data.width << " height: " << data.height;
+        if (showDebug) LOG(ERROR) << "data: " << ch << " width: " << data.width << " height: " << data.height;
         return -1;
     }
 
@@ -148,7 +150,7 @@ char * CTextRender::GetStringBuf(string str)
     string::iterator end_itr = utf8::find_invalid(str.begin(), str.end());
     if (end_itr != str.end())
     {
-        LOG(ERROR) << "Failed: Invalid UTF-8 encoding!";
+        if (showDebug) LOG(ERROR) << "Failed: Invalid UTF-8 encoding!";
         return NULL;
     }
 
@@ -414,7 +416,7 @@ int CTextRender::Draw(string str, const char * path)
         memset(emptybuf, 0, bmpSize.width * bmpSize.height * 3);
         WriteBmpFile(path, emptybuf, bmpSize);
         delete emptybuf;
-        LOG(DEBUG) << "Draw empty bmp! " << bmpSize.width << " x " << bmpSize.height;
+        if (showDebug) LOG(DEBUG) << "Draw empty bmp! " << bmpSize.width << " x " << bmpSize.height;
     }
     else
     {
